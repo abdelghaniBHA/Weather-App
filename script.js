@@ -9,7 +9,7 @@ const error = document.querySelector(".error");
 async function checkWeather(city){
     const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
 
-    if(response.status == 404){
+    if(response.status == 404 || inpBox.value == ''){
         document.querySelector(".error").style.display = "block";
         document.querySelector(".weather").style.display = "none";  
     }
@@ -50,4 +50,16 @@ searchBtn.addEventListener("click", ()=>{
     checkWeather(inpBox.value)
 })
 
+
+inpBox.addEventListener("keyup", (event) => {
+    if (event.key === "Enter" || event.keyCode === 13) {  // Detect Enter key press
+        const city = inpBox.value.trim();
+        if (city) {
+            checkWeather(city);
+        } else {
+            document.querySelector(".error").textContent = "Please enter a city name!";
+            document.querySelector(".error").style.display = "block";
+        }
+    }
+});
 
